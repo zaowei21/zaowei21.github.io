@@ -178,6 +178,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/13/MyBatis%20%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/13/MyBatis%20%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">MyBatis 注解开发</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-13 09:08:22 / 修改时间：09:33:40" itemprop="dateCreated datePublished" datetime="2021-05-13T09:08:22+08:00">2021-05-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MyBatis/" itemprop="url" rel="index">
+                    <span itemprop="name">MyBatis</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li><h4 id="注解在接口上实现"><a href="#注解在接口上实现" class="headerlink" title="注解在接口上实现"></a>注解在接口上实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select</span>(<span class="string">"select * from user"</span>)</span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">getUser</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="需要在核心配置文件中绑定接口"><a href="#需要在核心配置文件中绑定接口" class="headerlink" title="需要在核心配置文件中绑定接口!"></a>需要在核心配置文件中绑定接口!</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">class</span>=<span class="string">"com.kuang.dao.UserMapper"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="测试使用"><a href="#测试使用" class="headerlink" title="测试使用"></a>测试使用</h4></li>
+</ol>
+<h4 id="本质：-反射机制实现。"><a href="#本质：-反射机制实现。" class="headerlink" title="本质： 反射机制实现。"></a>本质： 反射机制实现。</h4><h4 id="底层：动态代理"><a href="#底层：动态代理" class="headerlink" title="底层：动态代理"></a>底层：动态代理</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/12/%E9%9B%86%E5%90%88%E4%BB%8B%E7%BB%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -875,112 +951,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/MyISAM%E5%92%8CINNODB%E7%9A%84%E5%B7%AE%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/10/MyISAM%E5%92%8CINNODB%E7%9A%84%E5%B7%AE%E5%88%AB/" class="post-title-link" itemprop="url">MyISAM和INNODB的差别</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-10 14:35:46 / 修改时间：16:53:41" itemprop="dateCreated datePublished" datetime="2021-05-10T14:35:46+08:00">2021-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <table>
-<thead>
-<tr>
-<th></th>
-<th>MyISAM</th>
-<th>INNODB</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>事务支持</td>
-<td>不支持(最新版支持)</td>
-<td>支持</td>
-</tr>
-<tr>
-<td>数据行锁定</td>
-<td>不支持</td>
-<td>支持</td>
-</tr>
-<tr>
-<td>外键约束</td>
-<td>不支持</td>
-<td>支持</td>
-</tr>
-<tr>
-<td>全文索引</td>
-<td>支持</td>
-<td>不支持</td>
-</tr>
-<tr>
-<td>表空间大小</td>
-<td>较小</td>
-<td>较大，约为2倍</td>
-</tr>
-</tbody></table>
-<p>常规使用操作：</p>
-<p>MyISAM 节约空间，速度较快</p>
-<p>INNODB 安全性高，事务的处理，多表多用户操作</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1029,7 +999,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1042,7 +1012,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">35</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
