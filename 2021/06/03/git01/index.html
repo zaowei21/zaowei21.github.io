@@ -45,18 +45,18 @@
   };
 </script>
 
-  <meta name="description" content="123456789101112131415161718192021222324252627282930import java.lang.reflect.Field;import java.lang.reflect.InvocationTargetException;import java.lang.reflect.Method;public class Test09 &amp;#123;    publi">
-<meta name="keywords" content="注解与反射">
+  <meta name="description" content="Git本地有三个工作区域 【工作目录】【暂存区】【资源库】加上远程的git仓库就可以分为四个工作区域 git add files 从工作目录添加到暂存区 git commit 从暂存区提交到资源库 git push 从本地资源库提交到远程git仓库 git的工作流程一般是这样的：  在工作目录中添加、修改文件；  将需要进行版本管理的文件放入暂存区域；git add  将暂存区域的文件提交到git">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="动态创建对象执行方法">
-<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;05&#x2F;10&#x2F;%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95&#x2F;index.html">
+<meta property="og:title" content="git 一">
+<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;06&#x2F;03&#x2F;git01&#x2F;index.html">
 <meta property="og:site_name" content="技术和生活">
-<meta property="og:description" content="123456789101112131415161718192021222324252627282930import java.lang.reflect.Field;import java.lang.reflect.InvocationTargetException;import java.lang.reflect.Method;public class Test09 &amp;#123;    publi">
+<meta property="og:description" content="Git本地有三个工作区域 【工作目录】【暂存区】【资源库】加上远程的git仓库就可以分为四个工作区域 git add files 从工作目录添加到暂存区 git commit 从暂存区提交到资源库 git push 从本地资源库提交到远程git仓库 git的工作流程一般是这样的：  在工作目录中添加、修改文件；  将需要进行版本管理的文件放入暂存区域；git add  将暂存区域的文件提交到git">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-05-10T05:37:34.874Z">
+<meta property="og:updated_time" content="2021-06-03T10:48:52.141Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zaowei21.github.io/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/">
+<link rel="canonical" href="https://zaowei21.github.io/2021/06/03/git01/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>动态创建对象执行方法 | 技术和生活</title>
+  <title>git 一 | 技术和生活</title>
   
 
 
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/03/git01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -194,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          动态创建对象执行方法
+          git 一
         </h1>
 
         <div class="post-meta">
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-05-10 13:34:11 / 修改时间：13:37:34" itemprop="dateCreated datePublished" datetime="2021-05-10T13:34:11+08:00">2021-05-10</time>
+              <time title="创建时间：2021-06-03 16:45:59 / 修改时间：18:48:52" itemprop="dateCreated datePublished" datetime="2021-06-03T16:45:59+08:00">2021-06-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,8 +213,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
-                    <span itemprop="name">注解与反射</span>
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
                   </a>
                 </span>
             </span>
@@ -230,7 +230,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test09</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException </span>&#123;</span><br><span class="line">        <span class="comment">//获得Class对象，这个不是创建对象实例。</span></span><br><span class="line">        Class c1 = Class.forName(<span class="string">"com.kuang.lambda.User"</span>);</span><br><span class="line">        <span class="comment">//构造一个对象</span></span><br><span class="line">        <span class="comment">//User o = (User)  c1.newInstance();//调用无参构造函数</span></span><br><span class="line">        <span class="comment">//System.out.println(o);</span></span><br><span class="line">        <span class="comment">//通过构造器创建对象,可以调用有参构造函数创建对象</span></span><br><span class="line">        <span class="comment">//Constructor constructor = c1.getDeclaredConstructor(String.class, int.class, int.class);</span></span><br><span class="line">        <span class="comment">//User u2= (User) constructor.newInstance("abc",23,56);</span></span><br><span class="line">        <span class="comment">//System.out.println(u2);</span></span><br><span class="line">        <span class="comment">//通过反射调用普通方法</span></span><br><span class="line">        User user3 = (User)  c1.newInstance();<span class="comment">//调用无参构造函数</span></span><br><span class="line">        Method name = c1.getDeclaredMethod( <span class="string">"setName"</span>, String.class);</span><br><span class="line">        name.invoke(user3,<span class="string">"Toms"</span>);</span><br><span class="line">        System.out.println(user3.getName());</span><br><span class="line"></span><br><span class="line">        User user4 = (User)  c1.newInstance();</span><br><span class="line">        Field name1= c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        <span class="comment">//不能直接操作私有属性，我们需要关闭程序的安全检测。</span></span><br><span class="line">        name1.setAccessible(<span class="keyword">true</span>);<span class="comment">//关闭安全检测，</span></span><br><span class="line">        name1.set(user4,<span class="string">"ccccc"</span>);</span><br><span class="line">        System.out.println(user4.getName());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>Git本地有三个工作区域 【工作目录】【暂存区】【资源库】加上远程的git仓库就可以分为四个工作区域</p>
+<p><strong>git add files</strong> 从工作目录添加到暂存区</p>
+<p><strong>git commit</strong> 从暂存区提交到资源库</p>
+<p><strong>git push</strong> 从本地资源库提交到远程git仓库</p>
+<p>git的工作流程一般是这样的：</p>
+<ol>
+<li><p>在工作目录中添加、修改文件；</p>
+</li>
+<li><p>将需要进行版本管理的文件放入暂存区域；git add</p>
+</li>
+<li><p>将暂存区域的文件提交到git仓库。git commit</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看文件状态</span></span><br><span class="line">git status</span><br><span class="line"><span class="comment">#添加所有文件到暂存区</span></span><br><span class="line">git add .</span><br><span class="line"><span class="comment">#提交暂存区中的内容到本地资源库 -m 提交信息</span></span><br><span class="line">git commit -m</span><br></pre></td></tr></table></figure>
+
+<p>IDEA中集成git</p>
+<p>新建项目，绑定git. 将远程的git文件目录拷贝到项目中即可。</p>
+
     </div>
 
     
@@ -239,7 +256,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" rel="tag"># 注解与反射</a>
+              <a href="/tags/git/" rel="tag"># git</a>
           </div>
 
         
@@ -248,13 +265,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/05/10/%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BB%93%E6%9E%84/" rel="prev" title="获取类运行时结构">
-      <i class="fa fa-chevron-left"></i> 获取类运行时结构
+    <a href="/2021/06/03/nginx01/" rel="prev" title="Nginx 一">
+      <i class="fa fa-chevron-left"></i> Nginx 一
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/05/10/%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/" rel="next" title="性能比较">
-      性能比较 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
