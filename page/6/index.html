@@ -178,6 +178,215 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">动态创建对象执行方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-10 13:34:11 / 修改时间：13:37:34" itemprop="dateCreated datePublished" datetime="2021-05-10T13:34:11+08:00">2021-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
+                    <span itemprop="name">注解与反射</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test09</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException </span>&#123;</span><br><span class="line">        <span class="comment">//获得Class对象，这个不是创建对象实例。</span></span><br><span class="line">        Class c1 = Class.forName(<span class="string">"com.kuang.lambda.User"</span>);</span><br><span class="line">        <span class="comment">//构造一个对象</span></span><br><span class="line">        <span class="comment">//User o = (User)  c1.newInstance();//调用无参构造函数</span></span><br><span class="line">        <span class="comment">//System.out.println(o);</span></span><br><span class="line">        <span class="comment">//通过构造器创建对象,可以调用有参构造函数创建对象</span></span><br><span class="line">        <span class="comment">//Constructor constructor = c1.getDeclaredConstructor(String.class, int.class, int.class);</span></span><br><span class="line">        <span class="comment">//User u2= (User) constructor.newInstance("abc",23,56);</span></span><br><span class="line">        <span class="comment">//System.out.println(u2);</span></span><br><span class="line">        <span class="comment">//通过反射调用普通方法</span></span><br><span class="line">        User user3 = (User)  c1.newInstance();<span class="comment">//调用无参构造函数</span></span><br><span class="line">        Method name = c1.getDeclaredMethod( <span class="string">"setName"</span>, String.class);</span><br><span class="line">        name.invoke(user3,<span class="string">"Toms"</span>);</span><br><span class="line">        System.out.println(user3.getName());</span><br><span class="line"></span><br><span class="line">        User user4 = (User)  c1.newInstance();</span><br><span class="line">        Field name1= c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        <span class="comment">//不能直接操作私有属性，我们需要关闭程序的安全检测。</span></span><br><span class="line">        name1.setAccessible(<span class="keyword">true</span>);<span class="comment">//关闭安全检测，</span></span><br><span class="line">        name1.set(user4,<span class="string">"ccccc"</span>);</span><br><span class="line">        System.out.println(user4.getName());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/10/%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">获取类运行时结构</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-10 13:13:23 / 修改时间：13:14:39" itemprop="dateCreated datePublished" datetime="2021-05-10T13:13:23+08:00">2021-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
+                    <span itemprop="name">注解与反射</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test08</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, NoSuchFieldException, NoSuchMethodException </span>&#123;</span><br><span class="line">        Class c1 = Class.forName(<span class="string">"com.kuang.lambda.User"</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        c1 = user.getClass();</span><br><span class="line">        <span class="comment">//获得类的名字</span></span><br><span class="line">        System.out.println(c1.getName()); <span class="comment">//获得包名+类名</span></span><br><span class="line">        System.out.println(c1.getSimpleName()); <span class="comment">//获得类名</span></span><br><span class="line">        System.out.println(<span class="string">"----------------------------------"</span>);</span><br><span class="line">        <span class="comment">//获得类属性 getFields()只能找到public属性</span></span><br><span class="line">        Field[] fields = c1.getDeclaredFields(); <span class="comment">//可以找到全部的属性。</span></span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            System.out.println(field);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获得指定属性的值</span></span><br><span class="line">        Field name = c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        System.out.println(<span class="string">"========================"</span>);</span><br><span class="line">        <span class="comment">//获得类的方法</span></span><br><span class="line">        Method[] methods = c1.getMethods();<span class="comment">//获得本类及父类的全部public方法</span></span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"=======getDeclaredMethods()================="</span>);</span><br><span class="line">        methods = c1.getDeclaredMethods();<span class="comment">//获得本类的全部方法</span></span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(c1.getMethod(<span class="string">"getName"</span>));</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/10/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title-link" itemprop="url">类加载器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-10 11:17:39 / 修改时间：11:34:42" itemprop="dateCreated datePublished" datetime="2021-05-10T11:17:39+08:00">2021-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
+                    <span itemprop="name">注解与反射</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test07</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">        <span class="comment">//获取系统类的加载器</span></span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        System.out.println(systemClassLoader);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//获取系统类加载器的父类加载器--&gt;扩展类加载器</span></span><br><span class="line">        ClassLoader parent = systemClassLoader.getParent();</span><br><span class="line">        System.out.println(parent);</span><br><span class="line">        <span class="comment">//获取扩展类加载器的父类加载器--&gt;根加载器(C/C++编写)</span></span><br><span class="line">        ClassLoader parent1 = parent.getParent();</span><br><span class="line">        System.out.println(parent1);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//测试当前类是哪个加载器加载的。</span></span><br><span class="line">        ClassLoader classLoader = Class.forName(<span class="string">"com.kuang.lambda.Test07"</span>).getClassLoader();</span><br><span class="line">        System.out.println(classLoader);</span><br><span class="line">        classLoader = Class.forName(<span class="string">"java.lang.Object"</span>).getClassLoader();</span><br><span class="line">        System.out.println(classLoader);</span><br><span class="line">        <span class="comment">//如何获得系统类加载器可以加载的路径</span></span><br><span class="line">        System.out.println(System.getProperty(<span class="string">"java.class.path"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -684,229 +893,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/08/ThreadStop/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/08/ThreadStop/" class="post-title-link" itemprop="url">线程停止</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-08 19:48:45 / 修改时间：19:51:38" itemprop="dateCreated datePublished" datetime="2021-05-08T19:48:45+08:00">2021-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index">
-                    <span itemprop="name">Java多线程</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>推荐的线程停止方法，用标志位转换。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestStop</span>  <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;<span class="comment">//设置一个标识位</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (flag) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Run...."</span> + i++);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 设置一个公开的方法停止线程，转换标志位。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.flag = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestStop testStop = <span class="keyword">new</span> TestStop();</span><br><span class="line">        <span class="keyword">new</span> Thread(testStop).start();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"main"</span> + i);</span><br><span class="line">            <span class="keyword">if</span>(i==<span class="number">900</span>) &#123;</span><br><span class="line">                <span class="comment">//调用stop方法切换标志位，让线程停止</span></span><br><span class="line">                testStop.stop();</span><br><span class="line">                System.out.println(<span class="string">"线程停止"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/08/Lamda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/08/Lamda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">Lamda表达式</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-08 15:16:50 / 修改时间：19:55:42" itemprop="dateCreated datePublished" datetime="2021-05-08T15:16:50+08:00">2021-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index">
-                    <span itemprop="name">Java多线程</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>函数式接口的定义：</p>
-<pre><code>- 任何接口，如果只包含唯一一个抽象方法，那么它就是一个函数式接口。
-- 对于函数式接口，我们可以通过lambda表达式来创建该接口的对象。</code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/08/Lamda%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/08/Thread02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/08/Thread02/" class="post-title-link" itemprop="url">线程（二）</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-08 15:05:37 / 修改时间：19:38:21" itemprop="dateCreated datePublished" datetime="2021-05-08T15:05:37+08:00">2021-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index">
-                    <span itemprop="name">Java多线程</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//静态代理模式总结：</span></span><br><span class="line"><span class="comment">//真实对象和代理对象都要实现同一个接口。</span></span><br><span class="line"><span class="comment">//代理对象要代理真实角色。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//代理对象可以做很多真实对象做不了的事情。</span></span><br><span class="line"><span class="comment">//真实对象专注做自己的事情</span></span><br><span class="line"><span class="comment">//线程类就是用静态代理实现的。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticProxy</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        WeddingCompany weddingCompany = <span class="keyword">new</span> WeddingCompany(<span class="keyword">new</span> You());</span><br><span class="line">        weddingCompany.HappyMarry();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Marry</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//真实角色，你去结婚</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">You</span> <span class="keyword">implements</span> <span class="title">Marry</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"要结婚了，超开心！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//代理角色，帮助你结婚</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeddingCompany</span> <span class="keyword">implements</span> <span class="title">Marry</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Marry target;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WeddingCompany</span><span class="params">(Marry target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HappyMarry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        before();</span><br><span class="line">        <span class="keyword">this</span>.target.HappyMarry(); <span class="comment">//这就是真实对象</span></span><br><span class="line">        after();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"结婚之后，收尾款！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"结婚之前，布置现场！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>没问题</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -955,7 +941,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

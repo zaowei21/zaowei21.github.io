@@ -178,6 +178,253 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/11/Mybatis%20%E6%97%A5%E5%BF%97%E5%B7%A5%E5%8E%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/11/Mybatis%20%E6%97%A5%E5%BF%97%E5%B7%A5%E5%8E%82/" class="post-title-link" itemprop="url">MyBatis 日志工厂</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-11 19:53:19 / 修改时间：20:29:23" itemprop="dateCreated datePublished" datetime="2021-05-11T19:53:19+08:00">2021-05-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MyBatis/" itemprop="url" rel="index">
+                    <span itemprop="name">MyBatis</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="STDOUT-LOGGING-标准日志输出"><a href="#STDOUT-LOGGING-标准日志输出" class="headerlink" title="STDOUT_LOGGING 标准日志输出"></a>STDOUT_LOGGING 标准日志输出</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"logImpl"</span> <span class="attr">value</span>=<span class="string">"STDOUT_LOGGING"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Log4J-需要先导包"><a href="#Log4J-需要先导包" class="headerlink" title="Log4J 需要先导包"></a>Log4J 需要先导包</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######################</span></span><br><span class="line"><span class="comment">## set log levels</span></span><br><span class="line"><span class="comment">######################</span></span><br><span class="line"><span class="meta">log4j.rootLogger</span>=<span class="string">DEBUG,CONSOLE,FILE</span></span><br><span class="line"><span class="comment">#DEBUG,CONSOLE,FILE,ROLLING_FILE,MAIL,DATABASE</span></span><br><span class="line"><span class="comment">######################</span></span><br><span class="line"><span class="comment">## CONSOLE Appender ##</span></span><br><span class="line"><span class="comment">######################</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE</span>=<span class="string">org.apache.log4j.ConsoleAppender</span></span><br><span class="line"><span class="meta">log4j.appender.Threshold</span>=<span class="string">DEBUG</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE.Target</span>=<span class="string">System.out</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE.layout.ConversionPattern</span>=<span class="string">[%-5p][%d&#123;yyyy-MM-dd HH\:mm\:ss,SSS&#125;][%c] \:%m%n</span></span><br><span class="line"><span class="comment">#log4j.appender.CONSOLE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n\u00A0</span></span><br><span class="line"><span class="comment">#log4j.appender.CONSOLE.layout.ConversionPattern=[start]%d&#123;DATE&#125;[DATE]%n%p[PRIORITY]%n%x[NDC]%n%t[THREAD] n%c[CATEGORY]%n%m[MESSAGE]%n%n</span></span><br><span class="line"><span class="comment">#######################</span></span><br><span class="line"><span class="comment">### File Appender</span></span><br><span class="line"><span class="comment">#######################</span></span><br><span class="line"><span class="meta">log4j.appender.FILE</span>=<span class="string">org.apache.log4j.FileAppender</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.File</span>=<span class="string">./logs/01.log</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.Append</span>=<span class="string">true</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.MaxFileSize</span>=<span class="string">1000KB</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.Threshold</span>=<span class="string">INFO</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.FILE.layout.ConversionPattern</span>=<span class="string">[%-5p][%d&#123;yyyy-MM-dd HH\:mm\:ss,SSS&#125;][%c] \:%m%n</span></span><br><span class="line"><span class="comment">##log4j.appender.CONSOLE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n\u00A0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">log4j.logger.org.mybatis</span>=<span class="string">DEBUG</span></span><br><span class="line"><span class="meta">log4j.logger.java.sql</span>=<span class="string">DEBUG</span></span><br><span class="line"><span class="meta">log4j.logger.java.sql.Statement</span>=<span class="string">DEBUG</span></span><br><span class="line"><span class="meta">log4j.logger.java.sql.ResultSet</span>=<span class="string">DEBUG</span></span><br><span class="line"><span class="meta">log4j.logger.java.sql.PreparedStatement</span>=<span class="string">DEBUG</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/11/ResultMap%E7%BB%93%E6%9E%9C%E9%9B%86%E6%98%A0%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/11/ResultMap%E7%BB%93%E6%9E%9C%E9%9B%86%E6%98%A0%E5%B0%84/" class="post-title-link" itemprop="url">MyBatis ResultMap结果集映射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-11 19:32:47 / 修改时间：19:35:40" itemprop="dateCreated datePublished" datetime="2021-05-11T19:32:47+08:00">2021-05-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MyBatis/" itemprop="url" rel="index">
+                    <span itemprop="name">MyBatis</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="结果映射"><a href="#结果映射" class="headerlink" title="结果映射"></a>结果映射</h3><p><code>resultMap</code> 元素是 MyBatis 中最重要最强大的元素。它可以让你从 90% 的 JDBC <code>ResultSets</code> 数据提取代码中解放出来，并在一些情形下允许你进行一些 JDBC 不支持的操作。实际上，在为一些比如连接的复杂语句编写映射代码的时候，一份 <code>resultMap</code> 能够代替实现同等功能的数千行代码。ResultMap 的设计思想是，对简单的语句做到零配置，对于复杂一点的语句，只需要描述语句之间的关系就行了。</p>
+<p>之前你已经见过简单映射语句的示例，它们没有显式指定 <code>resultMap</code>。比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultType</span>=<span class="string">"map"</span>&gt;</span></span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上述语句只是简单地将所有的列映射到 <code>HashMap</code> 的键上，这由 <code>resultType</code> 属性指定。虽然在大部分情况下都够用，但是 HashMap 并不是一个很好的领域模型。你的程序更可能会使用 JavaBean 或 POJO（Plain Old Java Objects，普通老式 Java 对象）作为领域模型。MyBatis 对两者都提供了支持。看看下面这个 JavaBean：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.someapp.model;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">  <span class="keyword">private</span> String username;</span><br><span class="line">  <span class="keyword">private</span> String hashedPassword;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> id;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> username;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.username = username;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getHashedPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHashedPassword</span><span class="params">(String hashedPassword)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.hashedPassword = hashedPassword;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基于 JavaBean 的规范，上面这个类有 3 个属性：id，username 和 hashedPassword。这些属性会对应到 select 语句中的列名。</p>
+<p>这样的一个 JavaBean 可以被映射到 <code>ResultSet</code>，就像映射到 <code>HashMap</code> 一样简单。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultType</span>=<span class="string">"com.someapp.model.User"</span>&gt;</span></span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>类型别名是你的好帮手。使用它们，你就可以不用输入类的全限定名了。比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- mybatis-config.xml 中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">type</span>=<span class="string">"com.someapp.model.User"</span> <span class="attr">alias</span>=<span class="string">"User"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- SQL 映射 XML 中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">  select id, username, hashedPassword</span><br><span class="line">  from some_table</span><br><span class="line">  where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这些情况下，MyBatis 会在幕后自动创建一个 <code>ResultMap</code>，再根据属性名来映射列到 JavaBean 的属性上。如果列名和属性名不能匹配上，可以在 SELECT 语句中设置列别名（这是一个基本的 SQL 特性）来完成匹配。比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">  select</span><br><span class="line">    user_id             as "id",</span><br><span class="line">    user_name           as "userName",</span><br><span class="line">    hashed_password     as "hashedPassword"</span><br><span class="line">  from some_table</span><br><span class="line">  where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在学习了上面的知识后，你会发现上面的例子没有一个需要显式配置 <code>ResultMap</code>，这就是 <code>ResultMap</code> 的优秀之处——你完全可以不用显式地配置它们。 虽然上面的例子不用显式配置 <code>ResultMap</code>。 但为了讲解，我们来看看如果在刚刚的示例中，显式使用外部的 <code>resultMap</code> 会怎样，这也是解决列名不匹配的另外一种方式。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userResultMap"</span> <span class="attr">type</span>=<span class="string">"User"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"user_id"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">column</span>=<span class="string">"user_name"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"password"</span> <span class="attr">column</span>=<span class="string">"hashed_password"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在引用它的语句中设置 <code>resultMap</code> 属性就行了（注意我们去掉了 <code>resultType</code> 属性）。比如:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultMap</span>=<span class="string">"userResultMap"</span>&gt;</span></span><br><span class="line">  select user_id, user_name, hashed_password</span><br><span class="line">  from some_table</span><br><span class="line">  where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果这个世界总是这么简单就好了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/11/MyBatis%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D(typeAliases)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/11/MyBatis%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D(typeAliases)/" class="post-title-link" itemprop="url">MyBatis 类型别名 typeAliases</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-11 18:53:29 / 修改时间：19:06:26" itemprop="dateCreated datePublished" datetime="2021-05-11T18:53:29+08:00">2021-05-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MyBatis/" itemprop="url" rel="index">
+                    <span itemprop="name">MyBatis</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p> 类型别名可为 Java 类型设置一个缩写名字。 它仅用于 XML 配置，意在降低冗余的全限定类名书写。例如：</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/11/MyBatis%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D(typeAliases)/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/11/Map%E7%9A%84%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -735,215 +982,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/10/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">动态创建对象执行方法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-10 13:34:11 / 修改时间：13:37:34" itemprop="dateCreated datePublished" datetime="2021-05-10T13:34:11+08:00">2021-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
-                    <span itemprop="name">注解与反射</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test09</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException </span>&#123;</span><br><span class="line">        <span class="comment">//获得Class对象，这个不是创建对象实例。</span></span><br><span class="line">        Class c1 = Class.forName(<span class="string">"com.kuang.lambda.User"</span>);</span><br><span class="line">        <span class="comment">//构造一个对象</span></span><br><span class="line">        <span class="comment">//User o = (User)  c1.newInstance();//调用无参构造函数</span></span><br><span class="line">        <span class="comment">//System.out.println(o);</span></span><br><span class="line">        <span class="comment">//通过构造器创建对象,可以调用有参构造函数创建对象</span></span><br><span class="line">        <span class="comment">//Constructor constructor = c1.getDeclaredConstructor(String.class, int.class, int.class);</span></span><br><span class="line">        <span class="comment">//User u2= (User) constructor.newInstance("abc",23,56);</span></span><br><span class="line">        <span class="comment">//System.out.println(u2);</span></span><br><span class="line">        <span class="comment">//通过反射调用普通方法</span></span><br><span class="line">        User user3 = (User)  c1.newInstance();<span class="comment">//调用无参构造函数</span></span><br><span class="line">        Method name = c1.getDeclaredMethod( <span class="string">"setName"</span>, String.class);</span><br><span class="line">        name.invoke(user3,<span class="string">"Toms"</span>);</span><br><span class="line">        System.out.println(user3.getName());</span><br><span class="line"></span><br><span class="line">        User user4 = (User)  c1.newInstance();</span><br><span class="line">        Field name1= c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        <span class="comment">//不能直接操作私有属性，我们需要关闭程序的安全检测。</span></span><br><span class="line">        name1.setAccessible(<span class="keyword">true</span>);<span class="comment">//关闭安全检测，</span></span><br><span class="line">        name1.set(user4,<span class="string">"ccccc"</span>);</span><br><span class="line">        System.out.println(user4.getName());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BB%93%E6%9E%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/10/%E8%8E%B7%E5%8F%96%E7%B1%BB%E8%BF%90%E8%A1%8C%E6%97%B6%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">获取类运行时结构</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-10 13:13:23 / 修改时间：13:14:39" itemprop="dateCreated datePublished" datetime="2021-05-10T13:13:23+08:00">2021-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
-                    <span itemprop="name">注解与反射</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test08</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, NoSuchFieldException, NoSuchMethodException </span>&#123;</span><br><span class="line">        Class c1 = Class.forName(<span class="string">"com.kuang.lambda.User"</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        c1 = user.getClass();</span><br><span class="line">        <span class="comment">//获得类的名字</span></span><br><span class="line">        System.out.println(c1.getName()); <span class="comment">//获得包名+类名</span></span><br><span class="line">        System.out.println(c1.getSimpleName()); <span class="comment">//获得类名</span></span><br><span class="line">        System.out.println(<span class="string">"----------------------------------"</span>);</span><br><span class="line">        <span class="comment">//获得类属性 getFields()只能找到public属性</span></span><br><span class="line">        Field[] fields = c1.getDeclaredFields(); <span class="comment">//可以找到全部的属性。</span></span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            System.out.println(field);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获得指定属性的值</span></span><br><span class="line">        Field name = c1.getDeclaredField(<span class="string">"name"</span>);</span><br><span class="line">        System.out.println(name);</span><br><span class="line">        System.out.println(<span class="string">"========================"</span>);</span><br><span class="line">        <span class="comment">//获得类的方法</span></span><br><span class="line">        Method[] methods = c1.getMethods();<span class="comment">//获得本类及父类的全部public方法</span></span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"=======getDeclaredMethods()================="</span>);</span><br><span class="line">        methods = c1.getDeclaredMethods();<span class="comment">//获得本类的全部方法</span></span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(c1.getMethod(<span class="string">"getName"</span>));</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/10/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/10/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title-link" itemprop="url">类加载器</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-05-10 11:17:39 / 修改时间：11:34:42" itemprop="dateCreated datePublished" datetime="2021-05-10T11:17:39+08:00">2021-05-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url" rel="index">
-                    <span itemprop="name">注解与反射</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test07</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException </span>&#123;</span><br><span class="line">        <span class="comment">//获取系统类的加载器</span></span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        System.out.println(systemClassLoader);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//获取系统类加载器的父类加载器--&gt;扩展类加载器</span></span><br><span class="line">        ClassLoader parent = systemClassLoader.getParent();</span><br><span class="line">        System.out.println(parent);</span><br><span class="line">        <span class="comment">//获取扩展类加载器的父类加载器--&gt;根加载器(C/C++编写)</span></span><br><span class="line">        ClassLoader parent1 = parent.getParent();</span><br><span class="line">        System.out.println(parent1);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//测试当前类是哪个加载器加载的。</span></span><br><span class="line">        ClassLoader classLoader = Class.forName(<span class="string">"com.kuang.lambda.Test07"</span>).getClassLoader();</span><br><span class="line">        System.out.println(classLoader);</span><br><span class="line">        classLoader = Class.forName(<span class="string">"java.lang.Object"</span>).getClassLoader();</span><br><span class="line">        System.out.println(classLoader);</span><br><span class="line">        <span class="comment">//如何获得系统类加载器可以加载的路径</span></span><br><span class="line">        System.out.println(System.getProperty(<span class="string">"java.class.path"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -992,7 +1030,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
