@@ -45,18 +45,18 @@
   };
 </script>
 
-  <meta name="description" content="三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。 MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。 三层架构将整个项目划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。 MVC 即Model（模型），View（视图），Controller（控制）。 MVC是表现层的架构，MVC的Model实际上是ViewModel，即供View进行展示的数据。">
-<meta name="keywords" content="SpringBoot">
+  <meta name="description" content="12345# just a flagENV = &amp;apos;development&amp;apos;# base api &amp;apos;&#x2F;dev-api&amp;apos; &#x2F;&#x2F;需要改项目根目录下的.evn.development这个文件VUE_APP_BASE_API = &amp;apos;http:&#x2F;&#x2F;localhost:8081&amp;apos;  还需要改api&#x2F;user.js这个文件。 主要是发送的目录，不改其实也是可以的。只是相对目录会比较长。 1234567891011">
+<meta name="keywords" content="SpringBoot,vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot MVC 三层架构 和 ModelAndView">
-<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;06&#x2F;28&#x2F;SpringBoot03&#x2F;index.html">
+<meta property="og:title" content="ElementUI Admin使用Spring Boot做后台">
+<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;07&#x2F;13&#x2F;element_admin%E6%94%B9&#x2F;index.html">
 <meta property="og:site_name" content="技术和生活">
-<meta property="og:description" content="三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。 MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。 三层架构将整个项目划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。 MVC 即Model（模型），View（视图），Controller（控制）。 MVC是表现层的架构，MVC的Model实际上是ViewModel，即供View进行展示的数据。">
+<meta property="og:description" content="12345# just a flagENV = &amp;apos;development&amp;apos;# base api &amp;apos;&#x2F;dev-api&amp;apos; &#x2F;&#x2F;需要改项目根目录下的.evn.development这个文件VUE_APP_BASE_API = &amp;apos;http:&#x2F;&#x2F;localhost:8081&amp;apos;  还需要改api&#x2F;user.js这个文件。 主要是发送的目录，不改其实也是可以的。只是相对目录会比较长。 1234567891011">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-28T01:49:41.938Z">
+<meta property="og:updated_time" content="2021-07-13T12:50:44.835Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zaowei21.github.io/2021/06/28/SpringBoot03/">
+<link rel="canonical" href="https://zaowei21.github.io/2021/07/13/element_admin%E6%94%B9/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>Spring Boot MVC 三层架构 和 ModelAndView | 技术和生活</title>
+  <title>ElementUI Admin使用Spring Boot做后台 | 技术和生活</title>
   
 
 
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/28/SpringBoot03/">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/07/13/element_admin%E6%94%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -194,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Spring Boot MVC 三层架构 和 ModelAndView
+          ElementUI Admin使用Spring Boot做后台
         </h1>
 
         <div class="post-meta">
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-06-28 09:38:28 / 修改时间：09:49:41" itemprop="dateCreated datePublished" datetime="2021-06-28T09:38:28+08:00">2021-06-28</time>
+              <time title="创建时间：2021-07-13 20:42:39 / 修改时间：20:50:44" itemprop="dateCreated datePublished" datetime="2021-07-13T20:42:39+08:00">2021-07-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -230,14 +230,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。</p>
-<p>MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。</p>
-<p>三层架构将整个项目划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。</p>
-<p>MVC 即Model（模型），View（视图），Controller（控制）。</p>
-<p>MVC是表现层的架构，MVC的Model实际上是ViewModel，即供View进行展示的数据。 ViewModel不包含业务逻辑，也不包含数据读取。</p>
-<p>MVC的Model层是提供数据的，即POJO类。</p>
-<p>3层架构指：表现层（显示层） 业务逻辑层 数据访问层（持久化）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView(<span class="string">"mvcdemo"</span>); <span class="comment">//mvcdemo就是HTML模板文件的文件名。</span></span><br><span class="line">modelAndView.addObject(<span class="string">"user"</span>,user); <span class="comment">//user是要注入模板文件的数据</span></span><br></pre></td></tr></table></figure>
+        <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># just a flag</span><br><span class="line">ENV = 'development'</span><br><span class="line"></span><br><span class="line"># base api '/dev-api' //需要改项目根目录下的.evn.development这个文件</span><br><span class="line">VUE_APP_BASE_API = 'http://localhost:8081'</span><br></pre></td></tr></table></figure>
+
+<p>还需要改api/user.js这个文件。 主要是发送的目录，不改其实也是可以的。只是相对目录会比较长。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">'@/utils/request'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">login</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> request(&#123;</span><br><span class="line">    <span class="comment">// baseURL: 'http://localhost:8081',</span></span><br><span class="line">    url: <span class="string">'/user/login'</span>, <span class="comment">// '/vue-element-admin/user/login',</span></span><br><span class="line">    method: <span class="string">'post'</span>,</span><br><span class="line">    data</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getInfo</span>(<span class="params">token</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> request(&#123;</span><br><span class="line">    <span class="comment">// baseURL: 'http://localhost:8081',</span></span><br><span class="line">    url: <span class="string">'/user/info'</span>, <span class="comment">// '/vue-element-admin/user/info',</span></span><br><span class="line">    method: <span class="string">'get'</span>,</span><br><span class="line">    params: &#123; token &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">logout</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> request(&#123;</span><br><span class="line">    url: <span class="string">'/user/logout'</span>, <span class="comment">// '/vue-element-admin/user/logout',</span></span><br><span class="line">    method: <span class="string">'post'</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> ElementUI Admin接收的json格式都是，{code: 20000,data: {  }} 这种。</p>
+<p>其它code要设置成数据，如果设置成字符串是没办法用的。就是20000这个不能加引号引起来。</p>
+
     </div>
 
     
@@ -247,6 +247,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
           </div>
 
         
@@ -255,13 +256,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/06/14/SpringBoot02/" rel="prev" title="Spring Boot 注解">
-      <i class="fa fa-chevron-left"></i> Spring Boot 注解
+    <a href="/2021/07/11/jackson%E5%AD%A6%E4%B9%A0/" rel="prev" title="Jackson 学习">
+      <i class="fa fa-chevron-left"></i> Jackson 学习
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/06/28/SpringBoot04/" rel="next" title="Spring Boot 验证器 Hibernate-validator">
-      Spring Boot 验证器 Hibernate-validator <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
