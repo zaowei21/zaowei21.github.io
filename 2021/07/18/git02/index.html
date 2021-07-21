@@ -53,7 +53,7 @@
 <meta property="og:site_name" content="技术和生活">
 <meta property="og:description" content="git提交远程,每次都要输入用户名和密码解决办法： 切换到：ssh 方式 把远程地址改成SSH地址。 Git :fatal: refusing to merge unrelated histories解决今天本地创建了一个仓库（有README)，把本地仓库和Github上关联以后，发现git pull，git feach提醒fatal: refusing to merge unrelated hi">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-18T12:41:35.057Z">
+<meta property="og:updated_time" content="2021-07-19T02:39:24.364Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://zaowei21.github.io/2021/07/18/git02/">
@@ -203,10 +203,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-07-18 20:37:17 / 修改时间：20:41:35" itemprop="dateCreated datePublished" datetime="2021-07-18T20:37:17+08:00">2021-07-18</time>
+              <time title="创建时间：2021-07-18 20:37:17" itemprop="dateCreated datePublished" datetime="2021-07-18T20:37:17+08:00">2021-07-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-19 10:39:24" itemprop="dateModified" datetime="2021-07-19T10:39:24+08:00">2021-07-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -232,7 +238,10 @@
       
         <h5 id="git提交远程-每次都要输入用户名和密码"><a href="#git提交远程-每次都要输入用户名和密码" class="headerlink" title="git提交远程,每次都要输入用户名和密码"></a>git提交远程,每次都要输入用户名和密码</h5><p>解决办法： <strong>切换到：ssh 方式</strong> 把远程地址改成SSH地址。</p>
 <h4 id="Git-fatal-refusing-to-merge-unrelated-histories解决"><a href="#Git-fatal-refusing-to-merge-unrelated-histories解决" class="headerlink" title="Git :fatal: refusing to merge unrelated histories解决"></a>Git :fatal: refusing to merge unrelated histories解决</h4><p>今天本地创建了一个仓库（有README)，把本地仓库和Github上关联以后，发现git pull，git feach提醒fatal: refusing to merge unrelated histories</p>
-<p>$git pull origin master –allow-unrelated-histories</p>
+<p>$ <strong>git pull origin master –allow-unrelated-histories</strong></p>
+<p>hint: Updates were rejected because the remote contains work that you do<br>hint: not have locally. This is usually caused by another repository pushing<br>hint: to the same ref. You may want to first integrate the remote changes<br>hint: (e.g., ‘git pull …’) before pushing again.<br>hint: See the ‘Note about fast-forwards’ in ‘git push –help’ for details.</p>
+<p>可以通过如下命令进行代码合并【注：pull=fetch+merge]</p>
+<p><strong>git pull –rebase origin master</strong></p>
 
     </div>
 
@@ -254,7 +263,10 @@
     <a href="/2021/07/13/element_admin%E6%94%B9/" rel="prev" title="ElementUI Admin使用Spring Boot做后台">
       <i class="fa fa-chevron-left"></i> ElementUI Admin使用Spring Boot做后台
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/21/json%E5%AD%A6%E4%B9%A0/" rel="next" title="Jackson 学习">
+      Jackson 学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -306,7 +318,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -319,7 +331,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

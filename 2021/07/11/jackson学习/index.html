@@ -45,15 +45,15 @@
   };
 </script>
 
-  <meta name="description" content="1234567891011@Data@AllArgsConstructor@NoArgsConstructorpublic class User &amp;#123;    private String username;    private String password;    private int[] ll;    private List&amp;lt;String&amp;gt; songs;    pri">
-<meta name="keywords" content="SpringBoot,jackson">
+  <meta name="description" content="java.lang.String和java.util.Date之间自动转换 1234@DateTimeFormat(pattern=&quot;yyyy-MM-dd&quot;)  &#x2F;&#x2F;页面写入数据库时格式化   &#x2F;&#x2F;数据库内容转换为JSON格式时使用@JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;, locale = &quot;zh&quot;, timezone = &quot;GMT+8&quot;)priva">
+<meta name="keywords" content="SpringBoot,jackson,json">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jackson 学习">
+<meta property="og:title" content="Json 学习">
 <meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;07&#x2F;11&#x2F;jackson%E5%AD%A6%E4%B9%A0&#x2F;index.html">
 <meta property="og:site_name" content="技术和生活">
-<meta property="og:description" content="1234567891011@Data@AllArgsConstructor@NoArgsConstructorpublic class User &amp;#123;    private String username;    private String password;    private int[] ll;    private List&amp;lt;String&amp;gt; songs;    pri">
+<meta property="og:description" content="java.lang.String和java.util.Date之间自动转换 1234@DateTimeFormat(pattern=&quot;yyyy-MM-dd&quot;)  &#x2F;&#x2F;页面写入数据库时格式化   &#x2F;&#x2F;数据库内容转换为JSON格式时使用@JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;, locale = &quot;zh&quot;, timezone = &quot;GMT+8&quot;)priva">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-11T11:53:22.522Z">
+<meta property="og:updated_time" content="2021-07-21T03:06:21.552Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://zaowei21.github.io/2021/07/11/jackson%E5%AD%A6%E4%B9%A0/">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>Jackson 学习 | 技术和生活</title>
+  <title>Json 学习 | 技术和生活</title>
   
 
 
@@ -194,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Jackson 学习
+          Json 学习
         </h1>
 
         <div class="post-meta">
@@ -203,10 +203,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-07-11 19:50:50 / 修改时间：19:53:22" itemprop="dateCreated datePublished" datetime="2021-07-11T19:50:50+08:00">2021-07-11</time>
+              <time title="创建时间：2021-07-11 19:50:50" itemprop="dateCreated datePublished" datetime="2021-07-11T19:50:50+08:00">2021-07-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-21 11:06:21" itemprop="dateModified" datetime="2021-07-21T11:06:21+08:00">2021-07-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -230,13 +236,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] ll;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; songs;</span><br><span class="line">    <span class="keyword">private</span> test01 test01;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,String&gt;  maps;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test01</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String a;</span><br><span class="line">    <span class="keyword">private</span> String b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123;</span><br><span class="line">    User user = <span class="keyword">new</span> User();</span><br><span class="line">    user.setUsername(<span class="string">"abc"</span>); <span class="comment">//普通POJO String</span></span><br><span class="line">    user.setPassword(<span class="string">"defg"</span>);</span><br><span class="line">    user.setLl(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>&#125;);  <span class="comment">//数组</span></span><br><span class="line">    List&lt;String&gt; songs = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    songs.add(<span class="string">"ccbb"</span>);</span><br><span class="line">    songs.add(<span class="string">"eeff"</span>);</span><br><span class="line">    user.setSongs(songs); <span class="comment">// List数组</span></span><br><span class="line">    user.setTest01(<span class="keyword">new</span> test01(<span class="string">"abc"</span>,<span class="string">"defgggggg"</span>)); <span class="comment">//对象</span></span><br><span class="line">    HashMap&lt;String, String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    hashMap.put(<span class="string">"fff"</span>,<span class="string">"iollll"</span>);</span><br><span class="line">    hashMap.put(<span class="string">"ssss"</span>,<span class="string">"cmmxx"</span>);</span><br><span class="line">    user.setMaps(hashMap); <span class="comment">//MAP</span></span><br><span class="line">    ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper(); <span class="comment">//JACKSON主要的转换类</span></span><br><span class="line">    <span class="comment">//格式化输出，输出的时间看起来有层次感。</span></span><br><span class="line">    mapper.configure(SerializationFeature.INDENT_OUTPUT, <span class="keyword">true</span>);</span><br><span class="line">    String json = mapper.writeValueAsString(user); <span class="comment">// 对象转换为字符串</span></span><br><span class="line">    System.out.println(json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span> : <span class="string">"abc"</span>,</span><br><span class="line">  <span class="attr">"password"</span> : <span class="string">"defg"</span>,</span><br><span class="line">  <span class="attr">"ll"</span> : [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span> ],</span><br><span class="line">  <span class="attr">"songs"</span> : [ <span class="string">"ccbb"</span>, <span class="string">"eeff"</span> ],</span><br><span class="line">  <span class="attr">"test01"</span> : &#123;</span><br><span class="line">    <span class="attr">"a"</span> : <span class="string">"abc"</span>,</span><br><span class="line">    <span class="attr">"b"</span> : <span class="string">"defgggggg"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"maps"</span> : &#123;</span><br><span class="line">    <span class="attr">"ssss"</span> : <span class="string">"cmmxx"</span>,</span><br><span class="line">    <span class="attr">"fff"</span> : <span class="string">"iollll"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>java.lang.String和java.util.Date之间自动转换</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DateTimeFormat</span>(pattern=<span class="string">"yyyy-MM-dd"</span>)  <span class="comment">//页面写入数据库时格式化   </span></span><br><span class="line"><span class="comment">//数据库内容转换为JSON格式时使用</span></span><br><span class="line"><span class="meta">@JsonFormat</span>(pattern = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>, locale = <span class="string">"zh"</span>, timezone = <span class="string">"GMT+8"</span>)</span><br><span class="line"><span class="keyword">private</span> Date excute_time;</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -249,6 +250,7 @@
           <div class="post-tags">
               <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
               <a href="/tags/jackson/" rel="tag"># jackson</a>
+              <a href="/tags/json/" rel="tag"># json</a>
           </div>
 
         
@@ -314,7 +316,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -327,7 +329,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
