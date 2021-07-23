@@ -45,18 +45,18 @@
   };
 </script>
 
-  <meta name="description" content="原理初探自动配置： pom.xml spring-boot-dependencies:核心依赖在父工程中 在写或者引入一些SpringBoot依赖的时候，不需要指定版本，就因为有这些版本仓库  启动器">
-<meta name="keywords" content="SpringBoot">
+  <meta name="description" content="在elementUI中sort-orders排序，默认为三种，怎么改成两种？ 只需要自定义sort-orders即可，sort-orders默认是[&amp;#39;ascending&amp;#39;, &amp;#39;descending&amp;#39;, null]，点击时先升序ascending,再点击降序descending,再点击不排序null。 只要改成sort-orders是`[‘ascending’, ‘d">
+<meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot自动装配原理">
-<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;05&#x2F;22&#x2F;SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86&#x2F;index.html">
+<meta property="og:title" content="Element UI 列表排序">
+<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;07&#x2F;23&#x2F;elementUI%E5%88%97%E8%A1%A8%E6%8E%92%E5%BA%8F&#x2F;index.html">
 <meta property="og:site_name" content="技术和生活">
-<meta property="og:description" content="原理初探自动配置： pom.xml spring-boot-dependencies:核心依赖在父工程中 在写或者引入一些SpringBoot依赖的时候，不需要指定版本，就因为有这些版本仓库  启动器">
+<meta property="og:description" content="在elementUI中sort-orders排序，默认为三种，怎么改成两种？ 只需要自定义sort-orders即可，sort-orders默认是[&amp;#39;ascending&amp;#39;, &amp;#39;descending&amp;#39;, null]，点击时先升序ascending,再点击降序descending,再点击不排序null。 只要改成sort-orders是`[‘ascending’, ‘d">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-05-22T05:27:19.271Z">
+<meta property="og:updated_time" content="2021-07-23T03:27:49.299Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zaowei21.github.io/2021/05/22/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86/">
+<link rel="canonical" href="https://zaowei21.github.io/2021/07/23/elementUI%E5%88%97%E8%A1%A8%E6%8E%92%E5%BA%8F/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>Spring Boot自动装配原理 | 技术和生活</title>
+  <title>Element UI 列表排序 | 技术和生活</title>
   
 
 
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/22/SpringBoot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/07/23/elementUI%E5%88%97%E8%A1%A8%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -194,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Spring Boot自动装配原理
+          Element UI 列表排序
         </h1>
 
         <div class="post-meta">
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-05-22 12:41:02 / 修改时间：13:27:19" itemprop="dateCreated datePublished" datetime="2021-05-22T12:41:02+08:00">2021-05-22</time>
+              <time title="创建时间：2021-07-23 11:14:19 / 修改时间：11:27:49" itemprop="dateCreated datePublished" datetime="2021-07-23T11:14:19+08:00">2021-07-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -213,8 +213,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
-                    <span itemprop="name">SpringBoot</span>
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
                   </a>
                 </span>
             </span>
@@ -230,24 +230,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="原理初探"><a href="#原理初探" class="headerlink" title="原理初探"></a>原理初探</h4><p>自动配置：</p>
-<h5 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h5><ul>
-<li>spring-boot-dependencies:核心依赖在父工程中</li>
-<li>在写或者引入一些SpringBoot依赖的时候，不需要指定版本，就因为有这些版本仓库</li>
-</ul>
-<h5 id="启动器"><a href="#启动器" class="headerlink" title="启动器 "></a>启动器 <a id="more"></a></h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        <p>在elementUI中sort-orders排序，默认为三种，怎么改成两种？</p>
+<p>只需要自定义<code>sort-orders</code>即可，<code>sort-orders</code>默认是<code>[&#39;ascending&#39;, &#39;descending&#39;, null]</code>，点击时先升序ascending,再点击降序descending,再点击不排序null。</p>
+<p>只要改成<code>sort-orders</code>是`[‘ascending’, ‘descending’] 就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table-column sortable=&quot;custom&quot; :sort-orders=&quot;[&apos;descending&apos;, &apos;ascending&apos;]&quot; prop=&quot;recentArriveDate&quot; min-width=&quot;80&quot;&gt;</span><br><span class="line"> &lt;template slot=&quot;header&quot;&gt;</span><br><span class="line">    &lt;span :class=&quot;sortBy === &apos;recentArriveDate&apos; ? &apos;theme-color&apos; : &apos;&apos;&quot;&gt;最近到店日期&lt;/span&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  &lt;template slot-scope=&quot;scope&quot;&gt;</span><br><span class="line">    &#123;&#123; scope.row.recentArriveDate | formatTime &#125;&#125;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><p>启动器 就是SpringBoot的启动场景。</p>
-</li>
-<li><p>比如我们引入spring-boot-starter-web,他就会帮我们自动导入Web环境所有的依赖。</p>
-</li>
-<li><p>SpringBoot会将所有的功能场景，都变成一个个的启动器。</p>
-</li>
-<li><p>使用什么功能，只需要找到对象的启动器就可以了。<code>starter</code></p>
-</li>
-</ul>
-
+<h5 id="注意：sortable-”custom”-一定要在-sort-orders-”-‘descending’-‘ascending’-”-的前面，否则可能没有效果。"><a href="#注意：sortable-”custom”-一定要在-sort-orders-”-‘descending’-‘ascending’-”-的前面，否则可能没有效果。" class="headerlink" title="注意：sortable=”custom” 一定要在:sort-orders=”[‘descending’, ‘ascending’]” 的前面，否则可能没有效果。"></a>注意：sortable=”custom” 一定要在:sort-orders=”[‘descending’, ‘ascending’]” 的前面，否则可能没有效果。</h5>
     </div>
 
     
@@ -256,7 +244,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
           </div>
 
         
@@ -265,13 +253,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/05/21/SpringMVC01/" rel="prev" title="Spring MVC入门">
-      <i class="fa fa-chevron-left"></i> Spring MVC入门
+    <a href="/2021/07/21/json%E5%AD%A6%E4%B9%A0/" rel="prev" title="Jackson 学习">
+      <i class="fa fa-chevron-left"></i> Jackson 学习
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/05/25/SpringSecurity/" rel="next" title="Spring Security">
-      Spring Security <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -309,7 +294,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理初探"><span class="nav-number">1.</span> <span class="nav-text">原理初探</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#pom-xml"><span class="nav-number">1.1.</span> <span class="nav-text">pom.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#启动器"><span class="nav-number">1.2.</span> <span class="nav-text">启动器 </span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意：sortable-”custom”-一定要在-sort-orders-”-‘descending’-‘ascending’-”-的前面，否则可能没有效果。"><span class="nav-number">1.</span> <span class="nav-text">注意：sortable=”custom” 一定要在:sort-orders=”[‘descending’, ‘ascending’]” 的前面，否则可能没有效果。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

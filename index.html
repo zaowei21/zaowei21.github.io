@@ -178,6 +178,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/07/23/elementUI%E5%88%97%E8%A1%A8%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/23/elementUI%E5%88%97%E8%A1%A8%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">Element UI 列表排序</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-23 11:14:19 / 修改时间：11:27:49" itemprop="dateCreated datePublished" datetime="2021-07-23T11:14:19+08:00">2021-07-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在elementUI中sort-orders排序，默认为三种，怎么改成两种？</p>
+<p>只需要自定义<code>sort-orders</code>即可，<code>sort-orders</code>默认是<code>[&#39;ascending&#39;, &#39;descending&#39;, null]</code>，点击时先升序ascending,再点击降序descending,再点击不排序null。</p>
+<p>只要改成<code>sort-orders</code>是`[‘ascending’, ‘descending’] 就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table-column sortable=&quot;custom&quot; :sort-orders=&quot;[&apos;descending&apos;, &apos;ascending&apos;]&quot; prop=&quot;recentArriveDate&quot; min-width=&quot;80&quot;&gt;</span><br><span class="line"> &lt;template slot=&quot;header&quot;&gt;</span><br><span class="line">    &lt;span :class=&quot;sortBy === &apos;recentArriveDate&apos; ? &apos;theme-color&apos; : &apos;&apos;&quot;&gt;最近到店日期&lt;/span&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  &lt;template slot-scope=&quot;scope&quot;&gt;</span><br><span class="line">    &#123;&#123; scope.row.recentArriveDate | formatTime &#125;&#125;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/el-table-column&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="注意：sortable-”custom”-一定要在-sort-orders-”-‘descending’-‘ascending’-”-的前面，否则可能没有效果。"><a href="#注意：sortable-”custom”-一定要在-sort-orders-”-‘descending’-‘ascending’-”-的前面，否则可能没有效果。" class="headerlink" title="注意：sortable=”custom” 一定要在:sort-orders=”[‘descending’, ‘ascending’]” 的前面，否则可能没有效果。"></a>注意：sortable=”custom” 一定要在:sort-orders=”[‘descending’, ‘ascending’]” 的前面，否则可能没有效果。</h5>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/07/21/json%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -893,84 +967,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/14/SpringBoot01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/14/SpringBoot01/" class="post-title-link" itemprop="url">Spring Boot maven报错</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-06-14 14:47:13 / 修改时间：18:58:56" itemprop="dateCreated datePublished" datetime="2021-06-14T14:47:13+08:00">2021-06-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
-                    <span itemprop="name">SpringBoot</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>IDEA搭建spring-boot maven报错Project ‘org.springframework.boot:spring-boot-starter-parent:2.2.0.RELEASE’ not found</p>
-<p>打开GITHUB上下载的项目总出现这个错误。解决方法有两种：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/06/14/SpringBoot01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1019,7 +1015,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
