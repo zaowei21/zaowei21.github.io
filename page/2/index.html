@@ -178,6 +178,155 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/28/SpringBoot04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/28/SpringBoot04/" class="post-title-link" itemprop="url">Spring Boot 验证器 Hibernate-validator</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-28 10:41:05 / 修改时间：10:43:43" itemprop="dateCreated datePublished" datetime="2021-06-28T10:41:05+08:00">2021-06-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringBoot</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Hibernate-validator可实现数据的验证，它是对 JSR ( Java Specification Requests ）标准<br>的实现 。 在 Web 开发中 ，不需要额外为验证再导入真他依赖，只需要添加 Web 依赖即可。</p>
+<p>自定义验证需要提供两个类：①自定义注解类；②自定义验证业务逻辑类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 主键ID</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"用户名不能为空"</span>)</span><br><span class="line">    <span class="meta">@Length</span>(min = <span class="number">5</span>, max = <span class="number">20</span>, message = <span class="string">"用户名长度为5-20个字符"</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotNull</span>(message = <span class="string">"年龄不能为空"</span>)</span><br><span class="line">    <span class="meta">@Min</span>(value = <span class="number">18</span> ,message = <span class="string">"最小18岁"</span>)</span><br><span class="line">    <span class="meta">@Max</span>(value = <span class="number">60</span>,message = <span class="string">"最大60岁"</span>)</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*    @NotBlank(message = "电话不可以为空")</span></span><br><span class="line"><span class="comment">    @Length(min = 1, max = 13, message = "电话长度需要在13个字符以内")</span></span><br><span class="line"><span class="comment">    private String phone;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Email</span>(message = <span class="string">"请输入邮箱"</span>)</span><br><span class="line">    <span class="meta">@NotBlank</span>(message = <span class="string">"邮箱不能为空"</span>)</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/* @NotNull(message = "必须指定用户状态")</span></span><br><span class="line"><span class="comment">    @Min(value = 0, message = "用户状态不合法")</span></span><br><span class="line"><span class="comment">    @Max(value = 1, message = "用户状态不合法")</span></span><br><span class="line"><span class="comment">    private Integer status;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@MyConstraint</span></span><br><span class="line">    <span class="keyword">private</span> String answer;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/28/SpringBoot03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/28/SpringBoot03/" class="post-title-link" itemprop="url">Spring Boot MVC 三层架构 和 ModelAndView</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-28 09:38:28 / 修改时间：09:49:41" itemprop="dateCreated datePublished" datetime="2021-06-28T09:38:28+08:00">2021-06-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringBoot</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。</p>
+<p>MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。</p>
+<p>三层架构将整个项目划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。</p>
+<p>MVC 即Model（模型），View（视图），Controller（控制）。</p>
+<p>MVC是表现层的架构，MVC的Model实际上是ViewModel，即供View进行展示的数据。 ViewModel不包含业务逻辑，也不包含数据读取。</p>
+<p>MVC的Model层是提供数据的，即POJO类。</p>
+<p>3层架构指：表现层（显示层） 业务逻辑层 数据访问层（持久化）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView(<span class="string">"mvcdemo"</span>); <span class="comment">//mvcdemo就是HTML模板文件的文件名。</span></span><br><span class="line">modelAndView.addObject(<span class="string">"user"</span>,user); <span class="comment">//user是要注入模板文件的数据</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/06/14/SpringBoot02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -800,171 +949,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/29/Redis01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/29/Redis01/" class="post-title-link" itemprop="url">Redis 入门</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-29 19:38:03" itemprop="dateCreated datePublished" datetime="2021-05-29T19:38:03+08:00">2021-05-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-30 18:38:53" itemprop="dateModified" datetime="2021-05-30T18:38:53+08:00">2021-05-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index">
-                    <span itemprop="name">redis</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><p>Redis(Remote Dictionary Server),可基于内存也可持久化的日志型，Key-Value数据库。</p>
-<p>持久化（rdb,aof)，效率高，可以用于调整缓存。支持事务。</p>
-<p>官网： <a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a></p>
-<p>中文网： <a href="http://www.redis.cn" target="_blank" rel="noopener">http://www.redis.cn</a></p>
-<p>配置文件：redis.conf</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/29/Redis01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/05/28/vum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/28/vum/" class="post-title-link" itemprop="url">Vue 04 node.js多版本并存</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-28 16:35:42" itemprop="dateCreated datePublished" datetime="2021-05-28T16:35:42+08:00">2021-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-29 17:59:11" itemprop="dateModified" datetime="2021-05-29T17:59:11+08:00">2021-05-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>用nvm可以装多个版本的node.js，用不同的应用就比较方便。</p>
-<p><a href="https://www.cnblogs.com/stevexu/p/9734249.html" target="_blank" rel="noopener">https://www.cnblogs.com/stevexu/p/9734249.html</a></p>
-<p>参考这个链接。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1013,20 +997,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
