@@ -45,16 +45,18 @@
   };
 </script>
 
-  <meta name="keywords" content="java,spring">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;tags&#x2F;index.html">
+  <meta name="description" content="123456789101112131415161718192021222324252627282930 &amp;lt;div class=&amp;quot;app-container&amp;quot;&amp;gt;    &amp;lt;el-tree      ref=&amp;quot;tree&amp;quot;      :check-strictly=&amp;quot;checkStrictly&amp;quot;      :data=&amp;quot">
+<meta name="keywords" content="vue,ElementUI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Element UI 的树形组件">
+<meta property="og:url" content="https:&#x2F;&#x2F;zaowei21.github.io&#x2F;2021&#x2F;08&#x2F;14&#x2F;ElementUI%E6%A0%91%E5%BD%A2%E7%BB%84%E4%BB%B6&#x2F;index.html">
 <meta property="og:site_name" content="技术和生活">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930 &amp;lt;div class=&amp;quot;app-container&amp;quot;&amp;gt;    &amp;lt;el-tree      ref=&amp;quot;tree&amp;quot;      :check-strictly=&amp;quot;checkStrictly&amp;quot;      :data=&amp;quot">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-05-08T10:35:53.264Z">
+<meta property="og:updated_time" content="2021-08-14T12:20:36.362Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zaowei21.github.io/tags/">
+<link rel="canonical" href="https://zaowei21.github.io/2021/08/14/ElementUI%E6%A0%91%E5%BD%A2%E7%BB%84%E4%BB%B6/">
 
 
 <script id="page-configurations">
@@ -62,14 +64,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
-    isPage: true,
+    isPost: true,
+    isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>tags | 技术和生活
-  </title>
+  <title>Element UI 的树形组件 | 技术和生活</title>
   
 
 
@@ -171,52 +172,99 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/08/14/ElementUI%E6%A0%91%E5%BD%A2%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Element UI 的树形组件
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">tags
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2021-08-14 20:15:53 / 修改时间：20:20:36" itemprop="dateCreated datePublished" datetime="2021-08-14T20:15:53+08:00">2021-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> &lt;div class=&quot;app-container&quot;&gt;</span><br><span class="line">    &lt;el-tree</span><br><span class="line">      ref=&quot;tree&quot;</span><br><span class="line">      :check-strictly=&quot;checkStrictly&quot;</span><br><span class="line">      :data=&quot;routesData&quot;</span><br><span class="line">      :props=&quot;defaultProps&quot;</span><br><span class="line">      node-key=&quot;id&quot;</span><br><span class="line">      class=&quot;menu-tree&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;span slot-scope=&quot;&#123; node, data &#125;&quot; class=&quot;custom-tree-node&quot;&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123; node.label &#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span&gt;</span><br><span class="line">          &lt;el-button</span><br><span class="line">            type=&quot;text&quot;</span><br><span class="line">            size=&quot;mini&quot;</span><br><span class="line">            @click=&quot;() =&gt; append(data)&quot;</span><br><span class="line">          &gt;</span><br><span class="line">            添加</span><br><span class="line">          &lt;/el-button&gt;</span><br><span class="line">          &lt;el-button</span><br><span class="line">            type=&quot;text&quot;</span><br><span class="line">            size=&quot;mini&quot;</span><br><span class="line">            @click=&quot;() =&gt; remove(node, data)&quot;</span><br><span class="line">          &gt;</span><br><span class="line">            删除</span><br><span class="line">          &lt;/el-button&gt;</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">      &lt;/span&gt;</span><br><span class="line">    &lt;/el-tree&gt;</span><br><span class="line">  &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Element UI树形标签的功能很强大，有很多属性可以设置。</p>
+<p>今天主要是用来管理树形菜单的</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+              <a href="/tags/ElementUI/" rel="tag"># ElementUI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/12/SpringBoot%20Controller%E6%8E%A5%E6%94%B6%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%A0%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E5%BC%8F/" rel="prev" title="SpringBoot Controller接收参数的几种常用方式[转的]">
+      <i class="fa fa-chevron-left"></i> SpringBoot Controller接收参数的几种常用方式[转的]
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              目前共计 43 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/ElementUI/" style="font-size: 12px; color: #ccc">ElementUI</a> <a href="/tags/IoC/" style="font-size: 12px; color: #ccc">IoC</a> <a href="/tags/JAVA-%E9%9B%86%E5%90%88/" style="font-size: 12px; color: #ccc">JAVA 集合</a> <a href="/tags/JavaWEB/" style="font-size: 14px; color: #b7b7b7">JavaWEB</a> <a href="/tags/Javase/" style="font-size: 18px; color: #8e8e8e">Javase</a> <a href="/tags/Java%E5%9F%BA%E7%A1%80/" style="font-size: 14px; color: #b7b7b7">Java基础</a> <a href="/tags/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 24px; color: #4f4f4f">Java多线程</a> <a href="/tags/MyBatis/" style="font-size: 30px; color: #111">MyBatis</a> <a href="/tags/MyBatisPlus/" style="font-size: 14px; color: #b7b7b7">MyBatisPlus</a> <a href="/tags/MySQL/" style="font-size: 12px; color: #ccc">MySQL</a> <a href="/tags/Shiro/" style="font-size: 14px; color: #b7b7b7">Shiro</a> <a href="/tags/Spring/" style="font-size: 20px; color: #797979">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 30px; color: #111">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 12px; color: #ccc">SpringMVC</a> <a href="/tags/SpringSecurity/" style="font-size: 12px; color: #ccc">SpringSecurity</a> <a href="/tags/Swagger/" style="font-size: 12px; color: #ccc">Swagger</a> <a href="/tags/Typora/" style="font-size: 12px; color: #ccc">Typora</a> <a href="/tags/git/" style="font-size: 14px; color: #b7b7b7">git</a> <a href="/tags/issue/" style="font-size: 14px; color: #b7b7b7">issue</a> <a href="/tags/jackson/" style="font-size: 16px; color: #a2a2a2">jackson</a> <a href="/tags/javascript/" style="font-size: 12px; color: #ccc">javascript</a> <a href="/tags/json/" style="font-size: 14px; color: #b7b7b7">json</a> <a href="/tags/lombok/" style="font-size: 12px; color: #ccc">lombok</a> <a href="/tags/markdown/" style="font-size: 12px; color: #ccc">markdown</a> <a href="/tags/mysql/" style="font-size: 12px; color: #ccc">mysql</a> <a href="/tags/nginx/" style="font-size: 12px; color: #ccc">nginx</a> <a href="/tags/redis/" style="font-size: 14px; color: #b7b7b7">redis</a> <a href="/tags/router/" style="font-size: 12px; color: #ccc">router</a> <a href="/tags/servlet/" style="font-size: 14px; color: #b7b7b7">servlet</a> <a href="/tags/vue/" style="font-size: 28px; color: #262626">vue</a> <a href="/tags/vuecli/" style="font-size: 12px; color: #ccc">vuecli</a> <a href="/tags/webpack/" style="font-size: 12px; color: #ccc">webpack</a> <a href="/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">代理模式</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">原型模式</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">工厂模式</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">建造者模式</a> <a href="/tags/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">抽象工厂模式</a> <a href="/tags/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">桥接模式</a> <a href="/tags/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" style="font-size: 22px; color: #646464">注解与反射</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 12px; color: #ccc">测试</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 26px; color: #3b3b3b">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">适配器模式</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
