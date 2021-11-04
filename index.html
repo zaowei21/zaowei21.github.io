@@ -178,6 +178,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/09/06/Shiro%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="赵伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术和生活">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/06/Shiro%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Shiro使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-06 19:51:00" itemprop="dateCreated datePublished" datetime="2021-09-06T19:51:00+08:00">2021-09-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-04 20:15:34" itemprop="dateModified" datetime="2021-11-04T20:15:34+08:00">2021-11-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Shiro/" itemprop="url" rel="index">
+                    <span itemprop="name">Shiro</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Shiro使用</p>
+<p>第一步: 创建安全管理器对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultSecurityManager securityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br></pre></td></tr></table></figure>
+
+<p>第二步: 给安全管理器设置realm</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">securityManager.setRealm(<span class="keyword">new</span> IniRealm(<span class="string">"classpath:shiro.ini"</span>));</span><br></pre></td></tr></table></figure>
+
+<p>第三步: SecurityUtils 全局安全工具类. 认证和退出等相关方法.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecurityUtils.setSecurityManager(securityManager);</span><br></pre></td></tr></table></figure>
+
+<p>第四步: 关键对象 subject 主体</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Subject subject = SecurityUtils.getSubject();</span><br></pre></td></tr></table></figure>
+
+<p>第五步: 创建令牌</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">"xiaochen"</span>,<span class="string">"123"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"1认证状态:"</span> + subject.isAuthenticated());</span><br><span class="line">    subject.login(token);<span class="comment">//用户认证</span></span><br><span class="line">    System.out.println(<span class="string">"2认证状态:"</span> + subject.isAuthenticated());</span><br><span class="line">&#125;<span class="keyword">catch</span> (UnknownAccountException e) &#123;</span><br><span class="line">    System.out.println(<span class="string">"认证失败:未知用户名"</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span> (IncorrectCredentialsException e) &#123;</span><br><span class="line">    System.out.println(<span class="string">"密码错误!"</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>shiro比较用户名是在: SimpleAccountRealm这个类</p>
+<p>的doGetAutheticationInfo这个方法中完成的.</p>
+<p>最终密码的校验是在AuthenticatingRealm类中</p>
+<p>的assertCredentialsMatch方法中完成的.</p>
+<p>可以自己重写Realm类,</p>
+<p>总结:</p>
+<p>AuthenticatingRealm 认证realm doGetAuthenticationInfo函数</p>
+<p>AuthorizingRealm 授权realm doGetAuthorizationInfo函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义realm实现,将认证/授权数据的来源转为数据库的实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerRealm</span>  <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line">    <span class="comment">//授权</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principals)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//认证</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">         String principal = (String) token.getPrincipal();</span><br><span class="line">        System.out.println(principal);</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"xiaochen"</span>.equals(principal)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(<span class="string">"xiaochen"</span>,<span class="string">"123"</span>, <span class="keyword">this</span>.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试自定义认证</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCustomerRealm</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建securityManage</span></span><br><span class="line">        DefaultSecurityManager defaultSecurityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line">        <span class="comment">//设置自定义realm</span></span><br><span class="line">        defaultSecurityManager.setRealm(<span class="keyword">new</span> CustomerRealm());</span><br><span class="line">        <span class="comment">//将安全管理实例添加到安全工具类</span></span><br><span class="line">        SecurityUtils.setSecurityManager(defaultSecurityManager);</span><br><span class="line">        <span class="comment">// 通过安全工具类获取subject</span></span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line">        <span class="comment">//创建token</span></span><br><span class="line">        UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">"xiaochen"</span>,<span class="string">"123"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            subject.login(token);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (UnknownAccountException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"账号不存在"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IncorrectCredentialsException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"密码错误!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Shiro MD5加密方式</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestShiroMD5</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        Md5Hash md5Hash = new Md5Hash();</span></span><br><span class="line"><span class="comment">//        md5Hash.setBytes("123".getBytes());</span></span><br><span class="line"><span class="comment">//        String s = md5Hash.toHex();</span></span><br><span class="line"><span class="comment">//        System.out.println(s);</span></span><br><span class="line"></span><br><span class="line">        Md5Hash md5Hash = <span class="keyword">new</span> Md5Hash(<span class="string">"123"</span>); <span class="comment">//简单的MD5,这个一般不会使用,不安全      </span></span><br><span class="line">        System.out.println(md5Hash.toHex());</span><br><span class="line"></span><br><span class="line">        Md5Hash md5Hash1 = <span class="keyword">new</span> Md5Hash(<span class="string">"123"</span>,<span class="string">"x07ps"</span>);<span class="comment">//加盐</span></span><br><span class="line">        System.out.println(md5Hash1.toHex());</span><br><span class="line"></span><br><span class="line">        Md5Hash md5Hash2 = <span class="keyword">new</span> Md5Hash(<span class="string">"123"</span>,<span class="string">"x07ps"</span>, <span class="number">1024</span>); <span class="comment">//加hash1024次</span></span><br><span class="line">        System.out.println(md5Hash2.toHex());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用自定义realm 加入md5 + salt + hash</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerMd5Realm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principals)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//这个是使用了md5和salt和hash后的认证方式.</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        String principal = (String) token.getPrincipal();</span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"xiaochen"</span>.equals(principal)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(principal,<span class="string">"09895f737e44c50ef24108eb3e4e82a2"</span>, ByteSource.Util.bytes(<span class="string">"x07ps"</span>), <span class="keyword">this</span>.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerMd5Authenticator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        DefaultSecurityManager defaultSecurityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line">        CustomerMd5Realm md5Realm = <span class="keyword">new</span> CustomerMd5Realm();</span><br><span class="line">        <span class="comment">// 使用MD5加密方式</span></span><br><span class="line">        HashedCredentialsMatcher credentialsMatcher = <span class="keyword">new</span> HashedCredentialsMatcher();</span><br><span class="line">        credentialsMatcher.setHashAlgorithmName(<span class="string">"md5"</span>);</span><br><span class="line">        credentialsMatcher.setHashIterations(<span class="number">1024</span>); <span class="comment">//hash1024次</span></span><br><span class="line">        md5Realm.setCredentialsMatcher(credentialsMatcher);</span><br><span class="line">        <span class="comment">//---------------</span></span><br><span class="line">        defaultSecurityManager.setRealm(md5Realm);</span><br><span class="line">        SecurityUtils.setSecurityManager(defaultSecurityManager);</span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line">        UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">"xiaochen"</span>, <span class="string">"123"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            subject.login(token);</span><br><span class="line">            System.out.println(<span class="string">"登录成功!"</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (UnknownAccountException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"用户名错误!"</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(IncorrectCredentialsException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"密码认证错误"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/08/26/%E6%B5%85%E6%9E%90%20VO%E3%80%81DTO%E3%80%81DO%E3%80%81PO%20%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E5%8C%BA%E5%88%AB%E5%92%8C%E7%94%A8%E5%A4%84%EF%BC%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -204,6 +316,13 @@
 
               <time title="创建时间：2021-08-26 19:35:38" itemprop="dateCreated datePublished" datetime="2021-08-26T19:35:38+08:00">2021-08-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-04 20:14:13" itemprop="dateModified" datetime="2021-11-04T20:14:13+08:00">2021-11-04</time>
+              </span>
 
           
 
@@ -216,7 +335,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="浅析-VO、DTO、DO、PO-的概念、区别和用处！"><a href="#浅析-VO、DTO、DO、PO-的概念、区别和用处！" class="headerlink" title="浅析 VO、DTO、DO、PO 的概念、区别和用处！"></a>浅析 VO、DTO、DO、PO 的概念、区别和用处！</h1><p>Cat Qi [业余草] <em>2020-06-20</em></p>
+          <h1 id="转-浅析-VO、DTO、DO、PO-的概念、区别和用处！"><a href="#转-浅析-VO、DTO、DO、PO-的概念、区别和用处！" class="headerlink" title="[转]浅析 VO、DTO、DO、PO 的概念、区别和用处！"></a>[转]浅析 VO、DTO、DO、PO 的概念、区别和用处！</h1><p>Cat Qi [业余草] <em>2020-06-20</em></p>
 <h5 id="推荐：https-www-xttblog-com-p-5031"><a href="#推荐：https-www-xttblog-com-p-5031" class="headerlink" title="推荐：https://www.xttblog.com/?p=5031"></a>推荐：<a href="https://www.xttblog.com/?p=5031" target="_blank" rel="noopener">https://www.xttblog.com/?p=5031</a></h5><p>前两天，面试了一个工作 4 年的 Java 程序员，我问他，“VO、DTO、DO、PO 的区别和用处都有哪些”，结果他没回答上来。再结合我去年发的一篇相关的文章(<a href="http://mp.weixin.qq.com/s?__biz=MzIyODE5NjUwNQ==&mid=2653318170&idx=2&sn=e76ea75a53b5c401af82bbecb735c9da&chksm=f38765ecc4f0ecfa932e60da795c1aa8ac90e849616ee80aaf45e08c1f9c58af55694bb4c582&scene=21#wechat_redirect" target="_blank" rel="noopener">PO,VO,DAO,BO,POJO 之间的区别你懂吗？</a>)，有不少人还是没搞明白，所以本篇文章主要讨论一下我们经常会用到的一些对象：VO、DTO、DO和PO。</p>
 <p>由于不同的项目和开发人员有不同的命名习惯，这里我首先对上述的概念进行一个简单描述，名字只是个标识，我们重点关注其概念：</p>
 <h2 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h2><ul>
@@ -899,89 +1018,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zaowei21.github.io/2021/07/21/json%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="赵伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="技术和生活">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/21/json%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Jackson 学习</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-21 10:50:21" itemprop="dateCreated datePublished" datetime="2021-07-21T10:50:21+08:00">2021-07-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-11 19:53:22" itemprop="dateModified" datetime="2021-07-11T19:53:22+08:00">2021-07-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jackson/" itemprop="url" rel="index">
-                    <span itemprop="name">jackson</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] ll;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; songs;</span><br><span class="line">    <span class="keyword">private</span> test01 test01;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,String&gt;  maps;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test01</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String a;</span><br><span class="line">    <span class="keyword">private</span> String b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> <span class="keyword">throws</span> JsonProcessingException </span>&#123;</span><br><span class="line">    User user = <span class="keyword">new</span> User();</span><br><span class="line">    user.setUsername(<span class="string">"abc"</span>); <span class="comment">//普通POJO String</span></span><br><span class="line">    user.setPassword(<span class="string">"defg"</span>);</span><br><span class="line">    user.setLl(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>&#125;);  <span class="comment">//数组</span></span><br><span class="line">    List&lt;String&gt; songs = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    songs.add(<span class="string">"ccbb"</span>);</span><br><span class="line">    songs.add(<span class="string">"eeff"</span>);</span><br><span class="line">    user.setSongs(songs); <span class="comment">// List数组</span></span><br><span class="line">    user.setTest01(<span class="keyword">new</span> test01(<span class="string">"abc"</span>,<span class="string">"defgggggg"</span>)); <span class="comment">//对象</span></span><br><span class="line">    HashMap&lt;String, String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    hashMap.put(<span class="string">"fff"</span>,<span class="string">"iollll"</span>);</span><br><span class="line">    hashMap.put(<span class="string">"ssss"</span>,<span class="string">"cmmxx"</span>);</span><br><span class="line">    user.setMaps(hashMap); <span class="comment">//MAP</span></span><br><span class="line">    ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper(); <span class="comment">//JACKSON主要的转换类</span></span><br><span class="line">    <span class="comment">//格式化输出，输出的时间看起来有层次感。</span></span><br><span class="line">    mapper.configure(SerializationFeature.INDENT_OUTPUT, <span class="keyword">true</span>);</span><br><span class="line">    String json = mapper.writeValueAsString(user); <span class="comment">// 对象转换为字符串</span></span><br><span class="line">    System.out.println(json);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"username"</span> : <span class="string">"abc"</span>,</span><br><span class="line">  <span class="attr">"password"</span> : <span class="string">"defg"</span>,</span><br><span class="line">  <span class="attr">"ll"</span> : [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span> ],</span><br><span class="line">  <span class="attr">"songs"</span> : [ <span class="string">"ccbb"</span>, <span class="string">"eeff"</span> ],</span><br><span class="line">  <span class="attr">"test01"</span> : &#123;</span><br><span class="line">    <span class="attr">"a"</span> : <span class="string">"abc"</span>,</span><br><span class="line">    <span class="attr">"b"</span> : <span class="string">"defgggggg"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"maps"</span> : &#123;</span><br><span class="line">    <span class="attr">"ssss"</span> : <span class="string">"cmmxx"</span>,</span><br><span class="line">    <span class="attr">"fff"</span> : <span class="string">"iollll"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1030,14 +1066,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">94</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
